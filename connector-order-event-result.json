@@ -1,0 +1,20 @@
+{
+  "name": "product-service-event-result-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "topic.prefix": "product-service",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "database.hostname": "stock-postgres",
+    "database.port": "5432",
+    "database.user": "postgres", 
+    "database.password": "postgres",
+    "database.dbname" : "productdb",
+    "database.server.name": "stock-postgres",
+    "table.include.list": "public.order_event_result",
+    "message.key.columns": "public.order_event_result:order_id",
+    "skipped.operations": "u,d,t"
+  }
+}

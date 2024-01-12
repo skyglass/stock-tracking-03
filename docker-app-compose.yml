@@ -1,0 +1,116 @@
+version: "3.8"
+
+networks:
+  stock:
+    driver: bridge
+
+services:
+  # Applications
+
+  product:
+    image: "product-service"
+    container_name: "product"
+    ports:
+      - 9001:9001
+      - 8001:8001
+    environment:
+      - SERVER_PORT=9001
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8001
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+      - ZIPKIN_HOST=zipkin
+    networks:
+      - stock
+
+
+  order:
+    image: "order-service"
+    container_name: "order"
+    ports:
+      - 9002:9002
+      - 8002:8002
+    environment:
+      - SERVER_PORT=9002
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8002
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+      - ZIPKIN_HOST=zipkin
+    networks:
+      - stock
+
+  order2:
+    image: "order-service"
+    container_name: "order2"
+    ports:
+      - 9003:9003
+      - 8003:8003
+    environment:
+      - SERVER_PORT=9003
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8003
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+      - ZIPKIN_HOST=zipkin
+    networks:
+      - stock
+
+  order3:
+    image: "order-service"
+    container_name: "order3"
+    ports:
+      - 9004:9004
+      - 8004:8004
+    environment:
+      - SERVER_PORT=9004
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8004
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+      - ZIPKIN_HOST=zipkin
+    networks:
+      - stock
+
+  product2:
+    image: "product-service"
+    container_name: "product2"
+    ports:
+      - 9005:9005
+      - 8005:8005
+    environment:
+      - SERVER_PORT=9005
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8005
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+      - ZIPKIN_HOST=zipkin
+    networks:
+      - stock
+
+  gateway:
+    image: "gateway-service"
+    container_name: "gateway"
+    ports:
+      - 9000:9000
+      - 8000:8000
+    environment:
+      - SERVER_PORT=9000
+      # Buildpacks environment variable to enable debug through a socket on port 8000
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8000
+      - PRODUCT_SERVICE_URL=http://product:9001
+      - PRODUCT2_SERVICE_URL=http://product2:9005
+      - ORDER_SERVICE_URL=http://order:9002
+      - ORDER2_SERVICE_URL=http://order2:9003
+      - ORDER3_SERVICE_URL=http://order3:9004
+      - SPRING_REDIS_HOST=gateway-redis
+      - SPRING_KEYCLOAK_SERVER_URL=http://stock-keycloak:8080
+      - SPRING_KEYCLOAK_SERVER_EXTERNAL_URL=http://localhost:8080
+    networks:
+      - stock

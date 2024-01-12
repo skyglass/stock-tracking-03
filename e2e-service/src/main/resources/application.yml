@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: e2e
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            readTimeout: 20000
+            connectTimeout: 30000
+          order:
+            url: http://localhost:9000/order
+          order2:
+            url: http://localhost:9000/order2
+          order3:
+            url: http://localhost:9000/order3
+          product:
+            url: http://localhost:9000/product
+          product2:
+            url: http://localhost:9000/product2
+          axon:
+            url: http://localhost:8024/v1/public
+          oauth2:
+            url: http://localhost:8080
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    order:
+      username: postgres
+      password: postgres
+      url: jdbc:postgresql://localhost:5432/orderdb
+      hikari:
+        connection-timeout: 2000 #ms
+        maximum-pool-size: 5
+    product:
+      username: postgres
+      password: postgres
+      url: jdbc:postgresql://localhost:5432/productdb
+      hikari:
+        connection-timeout: 2000 #ms
+        maximum-pool-size: 5
+
+security:
+  oauth2:
+    client-id: stock-app
+    grant-type: password
+    username: admin
+    password: admin

@@ -20,6 +20,7 @@
     <li>✅ <b>Kafka Event Store</b></li>
     <li>✅ <b>Debezium Change Data Capture PostgreSQL Kafka Connect</b></li>
     <li>✅ <b>Outbox Pattern Transactions with Debezium and PostgreSQL Database</b></li>
+    <li>✅ <b>Safe Idempotent Retry Transactions with Spring Retry</b></li>
     <li>✅ <b>Kafka UI</b></li>
     <li>✅ <b>Query Projection with PostgreSQL Database</b></li>
     <li>✅ <b>Keycloak Oauth2 Authorization Server</b></li>

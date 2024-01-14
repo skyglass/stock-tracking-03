@@ -1,6 +1,7 @@
 ### 📖 Concurrency and Resiliency Patterns in Saga Transactions for Spring Boot Microservices
 
-#### ✅ Outbox Pattern Concurrency with Safe Retry using Kafka Streams and Debezium CDC PostgreSQL Kafka Connect
+#### ✅ Outbox Pattern Concurrency with Kafka Streams and Debezium CDC PostgreSQL Kafka Connect
+#### ✅ Safe Idempotent Retry Transactions with Spring Retry
 #### ✅ E2E Concurrency Testing Framework with Completable Futures using Spring Cloud OpenFeign
 
 <ul style="list-style-type:disc">

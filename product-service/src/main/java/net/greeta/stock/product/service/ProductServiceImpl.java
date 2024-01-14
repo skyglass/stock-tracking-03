@@ -59,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  @Retryable(retryFor = ObjectOptimisticLockingFailureException.class, backoff = @Backoff(delay = 100))
   public ProductDto addStock(AddStockDto addStock) {
     String productId = addStock.getProductId();
     Integer quantity = addStock.getQuantity();

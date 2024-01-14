@@ -16,9 +16,12 @@ import java.time.Instant;
 @Data
 public class OrderEventResult {
 
+  private String id;
+
   @JsonProperty("order_id")
   private String orderId;
 
+  @JsonProperty("order_status")
   private OrderStatus orderStatus;
 
   private String detail;

@@ -42,7 +42,8 @@ public class OrderEventResultEntity {
   }
 
   public OrderEventResultEntity(OrderEvent event, String detail, OrderStatus status) {
-    id = event.getId();
+    this.id = event.getId();
+    this.orderId = event.getOrderId();
     this.detail = detail;
     this.orderStatus = status;
     startAt = event.getStartAt();

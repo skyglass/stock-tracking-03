@@ -8,17 +8,35 @@ services:
   
   # Backing Services
 
-  stock-postgres:
-    image: postgres:15.3
-    container_name: "stock-postgres"
-    restart: unless-stopped
-    ports:
-      - 5432:5432
+  order-postgres:
+    image: debezium/postgres:15
+    container_name: order-db
+    hostname: order-db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order-db
+      PGPORT: 5433
     volumes:
-      - ./docker-conf/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./volumes/postgresql/order-postgres:/var/lib/postgresql/data
+    ports:
+      - 5433:5433
+    networks:
+      - stock
+
+  product-postgres:
+    image: debezium/postgres:15
+    container_name: product-db
+    hostname: product-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: product-db
+      PGPORT: 5434
+    volumes:
+      - ./volumes/postgresql/product-postgres:/var/lib/postgresql/data
+    ports:
+      - 5434:5434
     networks:
       - stock
 
@@ -34,13 +52,13 @@ services:
     image: postgres:15.3
     container_name: keycloak_postgres
     ports:
-      - "5433:5433"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=keycloak
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=password
     healthcheck:
-      test: "pg_isready -U postgres"
+      test: "pg_isready -U keycloak"
     networks:
       - stock
   
@@ -55,7 +73,7 @@ services:
       - KC_DB_URL_DATABASE=keycloak
       - KC_DB_USERNAME=keycloak
       - KC_DB_PASSWORD=password
-      - KC_DB_PORT=5433
+      - KC_DB_PORT=5432
       - KC_HEALTH_ENABLED=true
     ports:
       - "8080:8080"
@@ -96,7 +114,7 @@ services:
       - ./volumes/zookeeper/log:/zookeeper/logs
       - ./volumes/zookeeper/conf:/zookeeper/conf
     networks:
-      - zookeeper
+      - stock
 
   stock-kafka1:
     image: debezium/kafka:2.2

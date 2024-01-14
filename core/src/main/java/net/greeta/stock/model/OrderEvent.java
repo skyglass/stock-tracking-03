@@ -3,6 +3,7 @@ package net.greeta.stock.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import net.greeta.stock.order.model.OrderStatus;
 
 import java.time.Instant;
 
@@ -18,6 +19,9 @@ public class OrderEvent {
     private String productId;
 
     private Integer quantity;
+
+    @JsonProperty("order_status")
+    private OrderStatus orderStatus;
 
     @JsonDeserialize(converter = MicroToInstantConverter.class)
     @JsonProperty("start_at")

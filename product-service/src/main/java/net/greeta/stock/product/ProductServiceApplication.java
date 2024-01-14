@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.retry.annotation.EnableRetry;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -11,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableRetry
 public class ProductServiceApplication {
 
 	private static final CountDownLatch latch = new CountDownLatch(1);

@@ -1,6 +1,8 @@
 package net.greeta.stock.order.service;
 
 import net.greeta.stock.order.data.OrderEntity;
+import net.greeta.stock.order.data.OrderEventEntity;
+import net.greeta.stock.order.data.OrderEventRepository;
 import net.greeta.stock.order.data.OrderRepository;
 import net.greeta.stock.order.dto.OrderCreateDto;
 import net.greeta.stock.order.dto.OrderSummaryDto;
@@ -20,6 +22,9 @@ public class OrderServiceImpl implements OrderService {
   @Autowired
   OrderRepository orderRepository;
 
+  @Autowired
+  OrderEventRepository eventRepository;
+
   @Override
   @Transactional(rollbackFor = Exception.class)
   public OrderSummaryDto createOrder(OrderCreateDto order) {
@@ -28,6 +33,11 @@ public class OrderServiceImpl implements OrderService {
             .orderStatus(OrderStatus.CREATED).build();
 
     orderEntity = orderRepository.saveAndFlush(orderEntity);
+
+    OrderEventEntity event = new OrderEventEntity(orderEntity.getId().toString(),
+                    orderEntity.getProductId(), orderEntity.getQuantity(),
+                    orderEntity.getOrderStatus());
+    eventRepository.save(event);
 
     return new OrderSummaryDto(orderEntity.getId().toString(),
             orderEntity.getOrderStatus(), "");

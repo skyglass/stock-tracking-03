@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class RetryHelper {
     public static final Duration DELAY = Duration.ofMillis(700);
-    public static final Duration TIMEOUT = Duration.ofSeconds(20);
+    public static final Duration TIMEOUT = Duration.ofSeconds(30);
 
     public static <T> T retry(Duration delay, Duration timeout, Supplier<T> test) {
         final long startTime = Instant.now().toEpochMilli();

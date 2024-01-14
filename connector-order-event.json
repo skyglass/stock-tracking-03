@@ -7,14 +7,14 @@
     "key.converter.schemas.enable": "false",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter.schemas.enable": "false",
-    "database.hostname": "stock-postgres",
-    "database.port": "5432",
+    "database.hostname": "order-postgres",
+    "database.port": "5433",
     "database.user": "postgres", 
     "database.password": "postgres",
-    "database.dbname" : "orderdb",
-    "database.server.name": "stock-postgres",
-    "table.include.list": "public.order",
-    "message.key.columns": "public.order:id",
+    "database.dbname" : "order-db",
+    "database.server.name": "order-postgres",
+    "table.include.list": "public.order_event",
+    "message.key.columns": "public.order_event:order_id",
     "skipped.operations": "u,d,t"
   }
 }

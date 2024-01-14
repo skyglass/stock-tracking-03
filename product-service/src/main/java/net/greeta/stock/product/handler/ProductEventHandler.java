@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import net.greeta.stock.product.data.OrderEventResultRepository;
 import net.greeta.stock.product.model.EventDto;
+import net.greeta.stock.product.service.ProductRetryableService;
 import net.greeta.stock.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -24,6 +25,9 @@ public class ProductEventHandler {
   private ThreadPoolTaskExecutor executor;
   @Autowired
   private ProductService productService;
+
+  @Autowired
+  private ProductRetryableService productRetryableService;
   @Autowired
   private KafkaManager kafkaManager;
 
@@ -34,8 +38,8 @@ public class ProductEventHandler {
 
   @KafkaListener(
       id = "order_event_consumer",
-      topics = "order-service.public.order",
-      groupId = "order-service.public.order:consumer",
+      topics = "order-service.public.order_event",
+      groupId = "order-service.public.order_event:consumer",
       concurrency = "1")
   void consume(String message, Acknowledgment acknowledgment) {
     kafkaManager.pauseConsume("order_event_consumer");
@@ -84,7 +88,7 @@ public class ProductEventHandler {
     }
 
     try {
-      productService.handleOrderEvent(eventDto.getEvent());
+      productRetryableService.handleOrderEvent(eventDto.getEvent());
     } catch (Exception e) {
       e.printStackTrace();
       productService.handleFailure(eventDto, e.getMessage());

@@ -2,6 +2,7 @@ package net.greeta.stock.product.rest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import net.greeta.stock.product.dto.AddStockDto;
 import net.greeta.stock.product.dto.CreateProductDto;
 import net.greeta.stock.product.dto.ProductDto;
 import net.greeta.stock.product.service.ProductService;
@@ -18,9 +19,9 @@ public class ProductController {
 		return productService.createProduct(product);
 	}
 
-	@PutMapping(path = "/add-stock/{productId}/{quantity}")
-	public ProductDto addStock(@PathVariable String productId, @PathVariable Integer quantity) {
-		return productService.addStock(productId, quantity);
+	@PutMapping(path = "/add-stock")
+	public ProductDto addStock(@Valid @RequestBody AddStockDto addStock) {
+		return productService.addStock(addStock);
 	}
 
 	@GetMapping(path = "/{productId}")

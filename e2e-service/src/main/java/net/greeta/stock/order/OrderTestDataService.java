@@ -23,9 +23,6 @@ public class OrderTestDataService extends TestDataService {
     @Override
     public void resetDatabase() {
         executeString("DELETE FROM orders");
-        executeString("DELETE FROM token_entry");
-        executeString("DELETE FROM association_value_entry");
-        executeString("DELETE FROM dead_letter_entry");
-        executeString("DELETE FROM saga_entry");
+        executeString("DELETE FROM order_event");
     }
 }

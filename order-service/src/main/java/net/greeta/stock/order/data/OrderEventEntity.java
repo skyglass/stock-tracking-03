@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.greeta.stock.order.data;
 
-import lombok.*;
-import net.greeta.stock.order.model.OrderStatus;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
-
 import jakarta.persistence.*;
+import lombok.*;
+import net.greeta.stock.order.model.OrderStatus;
 import org.hibernate.annotations.GenericGenerator;
 
 @Getter
@@ -20,12 +13,8 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orders", indexes = {@Index(columnList = "createdAt DESC")})
-public class OrderEntity implements Serializable {
-
-    @Version
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT now()")
-    private Instant version;
+@Table(name = "order_event", indexes = {@Index(columnList = "orderId"), @Index(columnList = "startAt")})
+public class OrderEventEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -34,19 +23,29 @@ public class OrderEntity implements Serializable {
     private UUID id;
 
     @Column(length = 128, nullable = false, updatable = false)
-    private String productId;
+    String orderId;
+
+    @Column(length = 128, nullable = false, updatable = false)
+    String productId;
 
     @Column(nullable = false, updatable = false)
     private int quantity;
-    
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    private Instant startAt;
 
     @PrePersist
     private void prePersist() {
-        createdAt = Instant.now();
+        startAt = Instant.now();
+    }
+
+    public OrderEventEntity(String orderId, String productId, int quantity, OrderStatus orderStatus) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.orderStatus = orderStatus;
     }
 }

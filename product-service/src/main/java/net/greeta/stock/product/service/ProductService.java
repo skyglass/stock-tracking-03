@@ -1,6 +1,7 @@
 package net.greeta.stock.product.service;
 
 import net.greeta.stock.model.OrderEvent;
+import net.greeta.stock.product.dto.AddStockDto;
 import net.greeta.stock.product.dto.CreateProductDto;
 import net.greeta.stock.product.dto.ProductDto;
 import net.greeta.stock.product.model.EventDto;
@@ -10,7 +11,7 @@ public interface ProductService {
 
   ProductDto createProduct(CreateProductDto product);
 
-  ProductDto addStock(String productId, Integer quantity);
+  ProductDto addStock(AddStockDto addStock);
 
   ProductDto getProduct(String productId);
 

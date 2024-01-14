@@ -19,8 +19,6 @@ spring:
             url: http://localhost:9000/product
           product2:
             url: http://localhost:9000/product2
-          axon:
-            url: http://localhost:8024/v1/public
           oauth2:
             url: http://localhost:8080
 
@@ -31,14 +29,14 @@ spring:
     order:
       username: postgres
       password: postgres
-      url: jdbc:postgresql://localhost:5432/orderdb
+      url: jdbc:postgresql://localhost:5433/order-db
       hikari:
         connection-timeout: 2000 #ms
         maximum-pool-size: 5
     product:
       username: postgres
       password: postgres
-      url: jdbc:postgresql://localhost:5432/productdb
+      url: jdbc:postgresql://localhost:5434/product-db
       hikari:
         connection-timeout: 2000 #ms
         maximum-pool-size: 5

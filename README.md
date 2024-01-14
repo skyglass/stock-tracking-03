@@ -1,11 +1,11 @@
-### 📖 Dealing with Concurrency in Saga Transactions for Spring Boot Microservices
+### 📖 Concurrency and Resiliency Patterns in Saga Transactions for Spring Boot Microservices
 
-#### ✅ Event Sourcing CQRS Concurrency Saga with Axon Event Store
-#### ✅ E2E Testing Framework with Spring Cloud OpenFeign
+#### ✅ Outbox Pattern Concurrency with Safe Retry using Kafka Streams and Debezium CDC PostgreSQL Kafka Connect
+#### ✅ E2E Concurrency Testing Framework with Completable Futures using Spring Cloud OpenFeign
 
 <ul style="list-style-type:disc">
-    <li>📖 This <b>Stock Tracking Platform with Axon Event Store</b> provides fully functional Development Environment:</li>
-    <li>📖 <b>Event-Driven Spring Boot Microservices</b> with Axon Event Sourcing and Saga Framework</li>
+    <li>📖 This <b>Stock Tracking Platform with Kafka Streams and Debezium CDC Connect</b> provides fully functional Development Environment:</li>
+    <li>📖 <b>Event-Driven Spring Boot Microservices</b> with Kafka Streams, Debezium CDC PostgreSQL Kafka Connect and Outbox Pattern</li>
     <li>📖 <b>Swagger UI Gateway</b> with Keycloak Authorization</li>
     <li>📖 <b>E2E Testing Service</b> with Spring Cloud OpenFeign REST Client</li>
     <li>📖 Local <b>Docker</b> Development Environment</li>
@@ -16,17 +16,16 @@
     <li>✅ <b>Spring Boot</b></li>
     <li>✅ <b>Spring Cloud Gateway</b></li>
     <li>✅ <b>Event-Driven Microservices</b></li>
-    <li>✅ <b>Axon Event Sourcing</b></li>
-    <li>✅ <b>Axon CQRS</b></li>
-    <li>✅ <b>Axon Saga Transactions</b></li>
-    <li>✅ <b>Axon Event Streaming</b></li>
-    <li>✅ <b>Axon Event Store</b></li>
-    <li>✅ <b>Axon Event Monitoring Console</b></li>
-    <li>✅ <b>CQRS Query Projection with PostgreSQL Database</b></li>
+    <li>✅ <b>Kafka Event Streaming</b></li>
+    <li>✅ <b>Kafka Event Store</b></li>
+    <li>✅ <b>Debezium Change Data Capture PostgreSQL Kafka Connect</b></li>
+    <li>✅ <b>Outbox Pattern Transactions with Debezium and PostgreSQL Database</b></li>
+    <li>✅ <b>Kafka UI</b></li>
+    <li>✅ <b>Query Projection with PostgreSQL Database</b></li>
     <li>✅ <b>Keycloak Oauth2 Authorization Server</b></li>
     <li>✅ <b>Local Docker Environment</b></li>
     <li>✅ <b>E2E Testing Framework</b></li>
-    <li>✅ <b>E2E Concurrency Testing with Multiple Threads</b></li>
+    <li>✅ <b>E2E Concurrency Testing with Completable Futures</b></li>
     <li>✅ <b>Remote Debugging</b></li>
     <li>✅ <b>Zipkin Distributed Tracing</b></li>
   </ul>
@@ -34,9 +33,8 @@
 
 ### 📖 Links
 
-- [Axon Spring Boot Websocket Github Page by Ivan Franchin](https://github.com/ivangfr/axon-springboot-websocket)
-- [Event-Driven Microservices, CQRS, SAGA, Axon, Spring Boot Udemy Course](https://www.udemy.com/course/spring-boot-microservices-cqrs-saga-axon-framework)
-- [Stock Tracking Swagger UI with Axon Event Sourcing, CQRS and Saga Transactions](https://github.com/greeta-stock-01/stock-api)
+- [Video Streaming Platform with Debezium CDC Kafka Connector, Kafka Event Streaming, Minio File Storage and FFmpeg Video Processing](https://github.com/greeta-video-01/video-api)
+- [Stock Tracking Platform with Axon Event Sourcing, CQRS and Saga Transactions](https://github.com/greeta-stock-02/stock-api)
 - [E2E Testing Pipeline for Spring Boot Microservices using OpenFeign Client and Github Actions](https://www.linkedin.com/pulse/e2e-testing-pipeline-spring-boot-microservices-using-openfeign/)
 
 ### 📖 Step By Step Guide
@@ -63,6 +61,8 @@ sh docker-app-restart.sh order
 
 - make sure you started local docker environment with `sh docker-start.sh` command
 
+- run commands in `./command.txt` (Debezium Kafka PostgreSQL connectors)
+
 - open http://localhost:9000 in your Browser and make sure that Swagger UI is working
 
 - go to `e2e-service` and run all E2E Tests with this command: `mvn test -Dtest="*E2eTest"`
@@ -73,11 +73,11 @@ sh docker-app-restart.sh order
 
 - for more details see: [E2E Testing Pipeline for Spring Boot Microservices using OpenFeign Client and Github Actions](https://www.linkedin.com/pulse/e2e-testing-pipeline-spring-boot-microservices-using-openfeign/)
 
-- Use `Axon Server Console` to monitor Event Sourcing and Saga Transaction Events, related to `Approved` and `Rejected` Orders: http://localhost:8024/
+- Use `Kafka UI` to monitor Topics, Kafka Connectors, Producers, Consumers and Event Messages: http://localhost:8024/
 
-- Use `PostgreSQL` Database Client (for example DBeaver) to monitor `orderdb` and `productdb` databases
+- Use `PostgreSQL` Database Client (for example DBeaver) to monitor `order-db` and `product-db` databases
 
-- Warning! Before each E2E test, PostgreSQL database and Axon Event Store are completely reset: all data is clean before running each E2E Test
+- Warning! Before each E2E test, PostgreSQL databases are completely reset: all data is clean before running each E2E Test
 
 - For E2E REST API requests OpenFeign uses  `admin/admin` password credentials (it receives `access_token` from Keycloak Server using `password` grant type)
 
@@ -100,17 +100,10 @@ sh docker-app-restart.sh order
 
 ![Configuration to debug a containerized Java application from IntelliJ IDEA](documentation/06-14.png)
 
-#### Axon Server Console
+#### Kafka UI
 
-- Use `Axon Server Console` for `Event Monitoring and Tracing`: http://localhost:8024/
-
-
-#### Axon Server Troubleshooting
-
-- When you run `Axon Server` for the first time:
-- Manually create folders `volumes/config`, `volumes/data`, `volumes/events`, `volumes/plugins`
-- Go to Axon Server Console: http://localhost:8024/
-- Click `Finish` button in the setup configuration dialog
+- Kafka UI should be available here: http://localhost:8070/
+- You can browse topics, partitions, messages and other kafka resources using this console
 
 #### Zipkin Server
 

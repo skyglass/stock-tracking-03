@@ -1,0 +1,2 @@
+curl -i -X POST -H "Content-Type:application/json" localhost:8071/connectors/ -d "@./connector-order-event.json"
+curl -i -X POST -H "Content-Type:application/json" localhost:8071/connectors/ -d "@./connector-order-event-result.json"

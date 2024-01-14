@@ -7,12 +7,14 @@ import net.greeta.stock.product.data.OrderEventResultEntity;
 import net.greeta.stock.product.data.OrderEventResultRepository;
 import net.greeta.stock.product.data.ProductEntity;
 import net.greeta.stock.product.data.ProductRepository;
+import net.greeta.stock.product.dto.AddStockDto;
 import net.greeta.stock.product.dto.CreateProductDto;
 import net.greeta.stock.product.dto.ProductDto;
+import net.greeta.stock.product.exception.InsufficientStockException;
 import net.greeta.stock.product.model.EventDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -57,8 +59,10 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  @Retryable(retryFor = OptimisticLockingFailureException.class, backoff = @Backoff(delay = 100))
-  public ProductDto addStock(String productId, Integer quantity) {
+  @Retryable(retryFor = ObjectOptimisticLockingFailureException.class, backoff = @Backoff(delay = 100))
+  public ProductDto addStock(AddStockDto addStock) {
+    String productId = addStock.getProductId();
+    Integer quantity = addStock.getQuantity();
     var productEntity = productRepository.findById(UUID.fromString(productId)).orElse(null);
     if (productEntity == null) {
       throw new IllegalArgumentException(String.format("Product with id = %s not found", productId));
@@ -84,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  @Retryable(retryFor = OptimisticLockingFailureException.class, backoff = @Backoff(delay = 100))
   public void handleOrderEvent(OrderEvent orderEvent) {
     var productEntity = productRepository.findById(UUID.fromString(orderEvent.getProductId())).orElse(null);
     if (productEntity == null) {
@@ -94,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
     log.debug("ProductReservedEvent: Current product quantity " + productEntity.getQuantity());
 
     if (productEntity.getQuantity() < orderEvent.getQuantity()) {
-      throw new IllegalArgumentException("Insufficient number of items in stock");
+      throw new InsufficientStockException(productEntity.getTitle());
     }
 
     productEntity.setQuantity(productEntity.getQuantity() - orderEvent.getQuantity());

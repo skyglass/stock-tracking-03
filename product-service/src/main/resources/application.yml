@@ -26,7 +26,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://stock-postgres:5432/productdb
+    url: jdbc:postgresql://product-postgres:5434/product-db
     hikari:
       connection-timeout: 2000 #ms
       maximum-pool-size: 5
